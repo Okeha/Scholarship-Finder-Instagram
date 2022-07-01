@@ -20,6 +20,10 @@ li {
 
 a {
     text-decoration: none;
+    color: whitesmoke;
+}
+a:hover{
+    color:white;
 }
 .container{
     background-color:#ffce99;
@@ -27,7 +31,7 @@ a {
     radial-gradient(at 23% 78%, #ba90e9 0px, transparent 50%),
     radial-gradient(at 49% 87%, hsla(21,61%,73%,1) 0px, transparent 50%),
     radial-gradient(at 84% 49%, hsla(11,82%,69%,1) 0px, transparent 50%);
-    height: 780px;
+    height: fit-content;
 }
 .containHeader{
     position: sticky;
@@ -238,6 +242,7 @@ footer {
 
   @media only screen and (max-width: 800px)and (min-device-width : 768px) {
        .containerBody h1{
+        margin-top:100px;
         font-size: 40pt;
         /* font-family: 'Poppins', 'Arial Narrow', Arial, sans-serif; */
         font-family: 'Montserrat Alternates', sans-serif;
@@ -246,12 +251,14 @@ footer {
     }
     .menu-button-container {
         display: flex;
+
       }
       .menu {
         position: absolute;
         top: 0;
         margin-top: 50px;
         left: 0;
+        color:#ba90e9;
         flex-direction: column;
         width: 100%;
         justify-content: center;
@@ -277,6 +284,7 @@ footer {
         padding: 0.5em 0;
         width: 100%;
         color: white;
+        background-color: hsla(21,61%,73%,1);
         background: linear-gradient(to left, #f1c89c, #d0b0d3);
         box-shadow: 0 8px 32px 0 rgba(36, 37, 44, 0.37);
         border-bottom: #a56faa 1px;
@@ -291,6 +299,7 @@ footer {
  
   @media only screen and (max-width: 500px){
     .containerBody h1{
+        margin-top:100px;
         font-size: 30pt;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     }
@@ -328,10 +337,10 @@ footer {
         width: 100%;
         color: white;
         background: linear-gradient(to left, #f1c89c, #d0b0d3);
-        box-shadow: 0 8px 32px 0 rgba(36, 37, 44, 0.37);
+        /* box-shadow: 0 8px 32px 0 rgba(36, 37, 44, 0.37);
         border-bottom: #a56faa 1px;
         backdrop-filter: blur( 8px );
-        -webkit-backdrop-filter: blur( 8px );
+        -webkit-backdrop-filter: blur( 8px ); */
       }
       .menu > li:not(:last-child) {
           border-bottom: #a56faa 1px;
