@@ -1,5 +1,4 @@
 const express = require("express");
-// const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -10,7 +9,6 @@ const validateLoginInput = require("./validation/login"); // Load User model
 const connect = require("./config/conn");
 const nodeMailer = require("nodemailer");
 const validateSendMailInput = require("./validation/sendMail");
-// const Insta = require("instagram-web-api");
 const scraper = require("instagram-scraping");
 var app = express();
 
@@ -244,26 +242,6 @@ async function sendMail(email, data1) {
   // return data1;
 }
 
-// function scrapeThings(parameters) {
-//   ig.scrapeTagPage("theboys")
-//     .then(function (result) {
-//       // console.dir(result.total);
-//       console.dir(result.total);
-//       var media = result.media;
-//       // console.log(media);
-//       const data = media.map(myFunction);
-//       // const data = "hello";
-//       function myFunction(value, index, array) {
-//         return `caption: ${value.caption}\nlink: https://www.instagram.com/p/${value.shortcode}\n\n\n`;
-//       }
-//       return data;
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//     });
-// }
-// console.log(scrapeThings("scholarshipsinnigeria"));
-
 app.post("/sendmail", (req, res) => {
   const { errors, isValid } = validateSendMailInput(req.body); // Check validation
   if (!isValid) {
@@ -276,8 +254,6 @@ app.post("/sendmail", (req, res) => {
   var tag = parameters;
   scraper.scrapeTag(tag).then((value) => {
     console.log(value.total);
-    // console.log(value.medias[0].node.edge_media_to_caption.edges[0].node.text);
-
     var media = value.medias;
     const data = media.map(myFunction);
     function myFunction(value, index, array) {
