@@ -9,13 +9,10 @@ const validateRegisterInput = require("./validation/register");
 const validateLoginInput = require("./validation/login"); // Load User model
 const connect = require("./config/conn");
 const nodeMailer = require("nodemailer");
-const Insta = require("instagram-web-api");
+const validateSendMailInput = require("./validation/sendMail");
+// const Insta = require("instagram-web-api");
 const scraper = require("instagram-scraping");
 var app = express();
-
-scraper.scrapeTag("clothes").then((value) => {
-  console.log(value);
-});
 
 app.use(express.json());
 // Passport middleware
@@ -78,37 +75,6 @@ app.post("/register", async (req, res) => {
   });
 });
 
-//mailer function
-let transporter = nodeMailer.createTransport({
-  host: "smtp.gmail.com",
-  service: "gmail",
-  port: 465,
-  secure: true,
-  auth: {
-    user: `${process.env.user}`,
-    pass: `${process.env.pass}`,
-  },
-});
-
-async function sendMail(email, data1) {
-  let mailOptions = {
-    from: "instagramscholarshipfinder@gmail.com",
-    to: `${email}`,
-    subject: `Scholarship Opportunities found...`,
-    text: `${data1}`,
-  };
-  transporter.sendMail(mailOptions, async (err, info) => {
-    if (err) {
-      // res.send(400).json(err);
-      return console.log(err);
-    }
-    console.log(info);
-    console.log(`message ${info.messageId} sent: ${info.response}`);
-    return `message ${info.messageId} sent: ${info.response}`;
-  });
-  // return data1;
-}
-
 app.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body); // Check validation
   var email = req.body.email;
@@ -168,19 +134,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-const client = new Insta({
-  username: process.env.instagram_username,
-  password: process.env.instagram_password,
-});
-
-(async () => {
-  await client.login();
-  var photos = await client.getPhotosByHashtag({
-    hashtag: "scholarships",
-    first: 1,
-  });
-  console.log(photos.hashtag.edge_hashtag_to_media);
-})();
 var searchParam =
   "mastersscholarship" ||
   "scholarshipsforinternationalstudents" ||
@@ -260,6 +213,90 @@ app.post("/getByTag", (req, res) => {
       console.log(err);
     });
 });
+
+let transporter = nodeMailer.createTransport({
+  host: "smtp.gmail.com",
+  service: "gmail",
+  port: 465,
+  secure: true,
+  auth: {
+    user: `${process.env.user}`,
+    pass: `${process.env.pass}`,
+  },
+});
+
+async function sendMail(email, data1) {
+  let mailOptions = {
+    from: "instagramscholarshipfinder@gmail.com",
+    to: `${email}`,
+    subject: `Scholarship Opportunities found...`,
+    text: `${data1}`,
+  };
+  transporter.sendMail(mailOptions, async (err, info) => {
+    if (err) {
+      res.send(400).json(err);
+      return console.log(err);
+    }
+    console.log(info);
+    console.log(`message ${info.messageId} sent: ${info.response}`);
+    return `message ${info.messageId} sent: ${info.response}`;
+  });
+  // return data1;
+}
+
+// function scrapeThings(parameters) {
+//   ig.scrapeTagPage("theboys")
+//     .then(function (result) {
+//       // console.dir(result.total);
+//       console.dir(result.total);
+//       var media = result.media;
+//       // console.log(media);
+//       const data = media.map(myFunction);
+//       // const data = "hello";
+//       function myFunction(value, index, array) {
+//         return `caption: ${value.caption}\nlink: https://www.instagram.com/p/${value.shortcode}\n\n\n`;
+//       }
+//       return data;
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//     });
+// }
+// console.log(scrapeThings("scholarshipsinnigeria"));
+
+app.post("/sendmail", (req, res) => {
+  const { errors, isValid } = validateSendMailInput(req.body); // Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  for (i = 0; i < searchParams.length; i++) {
+    var parameters = searchParams[i];
+  }
+  const email = req.body.email;
+  var tag = parameters;
+  scraper.scrapeTag(tag).then((value) => {
+    console.log(value.total);
+    // console.log(value.medias[0].node.edge_media_to_caption.edges[0].node.text);
+
+    var media = value.medias;
+    const data = media.map(myFunction);
+    function myFunction(value, index, array) {
+      console.log(`>>>CAPTION: ${value.node.edge_media_to_caption.edges[0].node.text}\n\
+      >>>LINK: https://www.instagram.com/p/${value.shortcode}\n\n\n`);
+      return `caption: ${value.node.edge_media_to_caption.edges[0].node.text}\n\
+        link: https://www.instagram.com/p/${value.shortcode}\n\n\n`;
+    }
+
+    sendMail(email, data);
+  });
+
+  res.json({
+    success: true,
+    from: "instagramscholarshipfinder@gmail.com",
+    to: email,
+  });
+});
+
 var port = process.env.PORT || 3200;
 
 app.listen(port, () => {
