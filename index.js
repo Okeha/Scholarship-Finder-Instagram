@@ -273,6 +273,26 @@ app.post("/sendmail", (req, res) => {
   });
 });
 
+const fs = require("fs");
+const quotes = fs.readFileSync("./resources/quotes.json");
+const quote = JSON.parse(quotes);
+console.log(typeof quote);
+const length = quote.quotes.length;
+const generate = function generateRandomQuote() {
+  let rand = Math.floor(Math.random() * length);
+  newQuote = {
+    quote: quote.quotes[rand].quote,
+    author: quote.quotes[rand].author,
+  };
+  return newQuote;
+};
+// console.log(generate());
+app.get("/getQuotes", (req, res) => {
+  res.json({
+    success: true,
+    data: generate(),
+  });
+});
 var port = process.env.PORT || 3200;
 
 app.listen(port, () => {
