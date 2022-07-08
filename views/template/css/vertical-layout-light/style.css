@@ -19698,7 +19698,7 @@ code {
 }
 
 /* Footer */
-.footer {
+/* .footer {
   background: #F5F7FF;
   padding: 30px 2.45rem;
   transition: all 0.25s ease;
@@ -19709,12 +19709,12 @@ code {
   font-family: "Nunito", sans-serif;
   font-weight: 400;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
+} */
 
-.footer a {
+/* .footer a {
   color: #4B49AC;
   font-size: inherit;
-}
+} */
 
 @media (max-width: 991px) {
   .footer {
@@ -30587,10 +30587,54 @@ div.tagsinput span.tag a {
   left: 30px;
 }
 
+/* start footer */
+footer {
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 20px;
+  
+}
+footer hr {
+  width: 100px;
+  color:white;
+  background-color: white;
+}
+/* end footer */
+
+/* start social icon */
+.social-icon {
+  
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+.social-icon li {
+  display: inline-block;
+  list-style: none;
+}
+.social-icon li a {
+  border-radius: 50%;
+  color:white;
+  text-decoration: none;
+  transition: all 0.4s ease-in-out;
+  text-align: center;
+  margin-right: 10px;
+}
+.social-icon li a:hover {
+  color: rgb(168, 106, 168);
+}
+/* end social icon */
+
+
+
 @media (max-width: 991px) {
   #settings-trigger {
     display: none;
   }
 }
-
+@media (max-device-width:480px){
+  .carousel-item{
+    width: 310px;
+  }
+}
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
