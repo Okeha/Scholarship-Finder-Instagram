@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+var logger = require("morgan");
 const passport = require("passport");
 const mysql = require("mysql");
 const validateRegisterInput = require("./validation/register");
@@ -10,12 +11,14 @@ const connect = require("./config/conn");
 const nodeMailer = require("nodemailer");
 const validateSendMailInput = require("./validation/sendMail");
 const scraper = require("instagram-scraping");
-var app = express();
+var cors = require("cors");
 
+var app = express();
 app.use(express.json());
 // Passport middleware
+app.use(cors());
 app.use(passport.initialize());
-
+app.use(logger("dev"));
 // Passport config
 require("./config/passport")(passport);
 
@@ -132,6 +135,22 @@ app.post("/login", (req, res) => {
   });
 });
 
+// app.post("/getDetails", (req, res) => {
+//   con.getConnection(async (err, con) => {
+//     if (err) throw err;
+//     const sqlSearch = "SELECT * FROM users where email = ?";
+//     const search_query = mysql.format(sqlSearch, [email]);
+//     await con.query(search_query, async (err, result) => {
+//       if (err) throw err;
+//       if (result.length == 0) {
+//         console.log("-----> User doos not exist");
+//         return res.status(404).json({ emailnotfound: "Email not found" });
+//       } else {
+//         result
+//       }
+//     });
+//   });
+// });
 var searchParam =
   "mastersscholarship" ||
   "scholarshipsforinternationalstudents" ||
