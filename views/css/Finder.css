@@ -192,4 +192,8 @@ html, body {
   #search:-moz-placeholder {color: #FFFFFF;}
   #search::-moz-selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
   #search::selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
-  
+
+button:hover{
+ font-size: larger ;
+ font-size: large ;
+}
