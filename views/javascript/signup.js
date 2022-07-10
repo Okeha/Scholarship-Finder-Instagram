@@ -36,6 +36,7 @@ signup.addEventListener("submit", (e) => {
         alert("Oops Invalid Details. Please enter valid details!");
       } else {
         console.log(data);
+        location.href = "./login.html";
       }
     });
 });

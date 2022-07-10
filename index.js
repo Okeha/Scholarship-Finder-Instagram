@@ -135,22 +135,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-// app.post("/getDetails", (req, res) => {
-//   con.getConnection(async (err, con) => {
-//     if (err) throw err;
-//     const sqlSearch = "SELECT * FROM users where email = ?";
-//     const search_query = mysql.format(sqlSearch, [email]);
-//     await con.query(search_query, async (err, result) => {
-//       if (err) throw err;
-//       if (result.length == 0) {
-//         console.log("-----> User doos not exist");
-//         return res.status(404).json({ emailnotfound: "Email not found" });
-//       } else {
-//         result
-//       }
-//     });
-//   });
-// });
 var searchParam =
   "mastersscholarship" ||
   "scholarshipsforinternationalstudents" ||
@@ -168,80 +152,7 @@ var searchParams = [
   "internationalscholarships",
   "scholarshipfornigerians",
   "scholarships",
-  "studyabroad",
-  "studyintheus",
 ];
-// app.get("/normalSearch", (req, res) => {
-//   // for (i = 0; i < searchParams.length; i++) {
-//   //   var parameters = searchParams[i];
-//   // }
-//   searchParams = [
-//     "mastersscholarship",
-//     "scholarshipsforinternationalstudents",
-//     "nigerianscholarships",
-//     "internationalscholarships",
-//     "scholarshipfornigerians",
-//     "scholarships",
-//     "studyintheus",
-//   ];
-//   console.log(searchParams[3]);
-//   ig.scrapeTagPage(searchParams[3])
-//     .then(function (result) {
-//       console.dir(result.total);
-//       var media = result.media;
-//       const data = media.map(myFunction);
-//       // console.log(media[0]);
-//       function myFunction(value, index, array) {
-//         // console.log(value);
-//         return {
-//           imgsrc: value.display_url,
-//           caption: value.caption,
-//           link: `https://www.instagram.com/p/${value.shortcode}`,
-//         };
-//       }
-
-//       res.json({
-//         success: true,
-//         result: result.total,
-//         media: {
-//           data: data,
-//         },
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
-// app.post("/getByTag", (req, res) => {
-//   var parameter = req.body.parameter;
-//   console.log(parameter);
-//   ig.scrapeTagPage(parameter)
-//     .then(function (result) {
-//       console.dir(result.total);
-//       var media = result.media;
-//       const data = media.map(myFunction);
-
-//       function myFunction(value, index, array) {
-//         return {
-//           caption: value.caption,
-//           link: `https://www.instagram.com/p/${value.shortcode}`,
-//         };
-//       }
-
-//       res.json({
-//         success: true,
-//         result: result.total,
-//         media: {
-//           data: data,
-//         },
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
-
 let transporter = nodeMailer.createTransport({
   host: "smtp.gmail.com",
   service: "gmail",
@@ -278,15 +189,18 @@ app.get("/", (req, res) => {
   var tag = parameters;
   scraper.scrapeTag(tag).then((value) => {
     console.log(value.total);
+    var length = value.total;
+    // console.log(value[0]);
     var media = value.medias;
 
     // console.log(media[0]);
     const data = media.map(myFunction);
     function myFunction(value, index, array) {
       return {
-        imgSrc: value.node.display_url,
+        // imgSrc: value.node.thumbnail_src,
+        length: length,
         caption: value.node.edge_media_to_caption.edges[0].node.text,
-        link: `https://www.instagram.com/p/${value.shortcode}`,
+        link: `https://www.instagram.com/p/${value.node.shortcode}`,
       };
     }
     res.json({
@@ -302,14 +216,15 @@ app.post("/getByTag", (req, res) => {
   var tag = req.body.parameter;
   scraper.scrapeTag(tag).then((value) => {
     console.log(value.total);
+    var length = value.total;
     var media = value.medias;
-    console.log(media[0]);
+    // console.log(media[0]);
     const data = media.map(myFunction);
     function myFunction(value, index, array) {
       return {
-        imgSrc: value.node.display_url,
+        length: length,
         caption: value.node.edge_media_to_caption.edges[0].node.text,
-        link: `https://www.instagram.com/p/${value.shortcode}`,
+        link: `https://www.instagram.com/p/${value.node.shortcode}`,
       };
     }
     res.json({
