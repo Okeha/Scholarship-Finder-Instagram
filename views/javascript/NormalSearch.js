@@ -1,5 +1,5 @@
 function getData() {
-  fetch("http://localhost:3200/")
+  fetch("https://scholarshipfinderapi.herokuapp.com/")
     .then((res) => {
       return res.json();
     })

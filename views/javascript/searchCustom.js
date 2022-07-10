@@ -4,7 +4,7 @@ search.addEventListener("submit", (e) => {
   e.preventDefault();
   var parameter = search.search.value;
   console.log(parameter);
-  fetch("http://localhost:3200/getByTag", {
+  fetch("https://scholarshipfinderapi.herokuapp.com/getByTag", {
     method: "POST",
     body: JSON.stringify({
       parameter: `${parameter}`,

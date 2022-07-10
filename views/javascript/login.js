@@ -6,7 +6,7 @@ loginButton.addEventListener("click", (e) => {
 
   var email = login.email.value;
   var password = login.password.value;
-  fetch("http://localhost:3200/login", {
+  fetch("https://scholarshipfinderapi.herokuapp.com/login", {
     method: "POST",
     body: JSON.stringify({
       email: `${email}`,

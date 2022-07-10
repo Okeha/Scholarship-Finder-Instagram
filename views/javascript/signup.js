@@ -9,7 +9,7 @@ signup.addEventListener("submit", (e) => {
   var password = signup.password.value;
   var confirm_password = signup.confirm_password.value;
 
-  fetch("http://localhost:3200/register", {
+  fetch("https://scholarshipfinderapi.herokuapp.com/register", {
     method: "POST",
     body: JSON.stringify({
       first_name: `${first_name}`,

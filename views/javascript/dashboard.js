@@ -1,7 +1,7 @@
 // const generate = document.getElementById("generate");
 
 function getData() {
-  fetch("http://localhost:3200/getQuotes")
+  fetch("https://scholarshipfinderapi.herokuapp.com/getQuotes")
     .then((res) => {
       return res.json();
     })
