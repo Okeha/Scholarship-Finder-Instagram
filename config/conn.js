@@ -9,10 +9,10 @@ const con = {
 
 const conn = {
   connectionLimit: 10000,
-  host: "demo.phpmyadmin.net",
-  user: "root",
-  password: "",
-  database: "ig",
+  host: "sql8.freemysqlhosting.net",
+  user: "sql8505379",
+  password: "V2gYuYgvcn",
+  database: "sql8505379",
   port: "3306",
 };
 
