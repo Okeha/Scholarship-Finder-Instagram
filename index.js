@@ -187,53 +187,62 @@ app.get("/", (req, res) => {
     var parameters = searchParams[i];
   }
   var tag = parameters;
-  scraper.scrapeTag(tag).then((value) => {
-    console.log(value.total);
-    var length = value.total;
-    // console.log(value[0]);
-    var media = value.medias;
+  scraper
+    .scrapeTag(tag)
+    .then((value) => {
+      console.log(value.total);
+      var length = value.total;
+      // console.log(value[0]);
+      var media = value.medias;
 
-    // console.log(media[0]);
-    const data = media.map(myFunction);
-    function myFunction(value, index, array) {
-      return {
-        // imgSrc: value.node.thumbnail_src,
-        length: length,
-        caption: value.node.edge_media_to_caption.edges[0].node.text,
-        link: `https://www.instagram.com/p/${value.node.shortcode}`,
-      };
-    }
-    res.json({
-      success: true,
-      media: {
-        data: data,
-      },
+      // console.log(media[0]);
+      const data = media.map(myFunction);
+      function myFunction(value, index, array) {
+        return {
+          length: length,
+          caption: value.node.edge_media_to_caption.edges[0].node.text,
+          link: `https://www.instagram.com/p/${value.node.shortcode}`,
+        };
+      }
+      res.json({
+        success: true,
+        media: {
+          data: data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 });
 
 app.post("/getByTag", (req, res) => {
   var tag = req.body.parameter;
-  scraper.scrapeTag(tag).then((value) => {
-    console.log(value.total);
-    var length = value.total;
-    var media = value.medias;
-    // console.log(media[0]);
-    const data = media.map(myFunction);
-    function myFunction(value, index, array) {
-      return {
-        length: length,
-        caption: value.node.edge_media_to_caption.edges[0].node.text,
-        link: `https://www.instagram.com/p/${value.node.shortcode}`,
-      };
-    }
-    res.json({
-      success: true,
-      media: {
-        data: data,
-      },
+  scraper
+    .scrapeTag(tag)
+    .then((value) => {
+      console.log(value.total);
+      var length = value.total;
+      var media = value.medias;
+      // console.log(media[0]);
+      const data = media.map(myFunction);
+      function myFunction(value, index, array) {
+        return {
+          length: length,
+          caption: value.node.edge_media_to_caption.edges[0].node.text,
+          link: `https://www.instagram.com/p/${value.node.shortcode}`,
+        };
+      }
+      res.json({
+        success: true,
+        media: {
+          data: data,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 });
 app.post("/sendmail", (req, res) => {
   const { errors, isValid } = validateSendMailInput(req.body); // Check validation
