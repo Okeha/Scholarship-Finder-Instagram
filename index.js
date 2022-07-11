@@ -247,7 +247,7 @@ app.get("/", (req, res) => {
   }
   var tag = parameters;
   scraper
-    .scrapeTag(tag)
+    .scrapeTag("scholarships")
     .then((value) => {
       console.log(value.total);
       var length = value.total;
@@ -284,20 +284,30 @@ app.post("/getByTag", (req, res) => {
       var length = value.total;
       var media = value.medias;
       // console.log(media[0]);
-      const data = media.map(myFunction);
-      function myFunction(value, index, array) {
-        return {
-          length: length,
-          caption: value.node.edge_media_to_caption.edges[0].node.text,
-          link: `https://www.instagram.com/p/${value.node.shortcode}`,
-        };
+      if (value === undefined) {
+        res.json({
+          media: {
+            data: {
+              caption: "nothing found",
+            },
+          },
+        });
+      } else {
+        const data = media.map(myFunction);
+        function myFunction(value, index, array) {
+          return {
+            length: length,
+            caption: value.node.edge_media_to_caption.edges[0].node.text,
+            link: `https://www.instagram.com/p/${value.node.shortcode}`,
+          };
+        }
+        res.json({
+          success: true,
+          media: {
+            data: data,
+          },
+        });
       }
-      res.json({
-        success: true,
-        media: {
-          data: data,
-        },
-      });
     })
     .catch((err) => {
       console.log(err);
