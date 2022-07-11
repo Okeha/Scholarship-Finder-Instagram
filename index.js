@@ -35,36 +35,28 @@ const keys = require("./config/keys");
 
 const con = mysql.createPool(connect);
 
+var scrapeScholarship = async (parameter) => {};
 app.get("/get", async (req, res) => {
-  var media;
-  var total;
+  var parameter = "mastersscholarships";
+  console.log(parameter);
   var arr;
-  ig.scrapeTagPage("music")
-    .then((result) => {
-      console.log(result.media);
-      total = result.total;
-      media = result.media;
-      arr = media.map(myFunct);
-      async function myFunct(value) {
-        console.log(value.caption, value.code);
-        return {
-          length: length,
-          caption: value.caption,
-          link: `https://www.instagram.com/p/${value.code}`,
-        };
-      }
-      res.json({
-        media: {
-          data: arr,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(error);
-      res.json({
-        message: "Oops! Unable to scrape instagram at this time",
-      });
+  ig.scrapeTagPage(`${parameter}`).then((result) => {
+    // console.log(result.media);
+    total = result.total;
+    media = result.media;
+    arr = media.map(myFunct);
+    function myFunct(value) {
+      // console.log(value.caption, value.code);
+      return {
+        length: length,
+        caption: value.caption,
+        link: `https://www.instagram.com/p/${value.code}`,
+      };
+    }
+    res.json({
+      data: arr,
     });
+  });
 });
 
 app.post("/customSearch", async (req, res) => {
