@@ -40,23 +40,29 @@ app.get("/get", async (req, res) => {
   var parameter = "mastersscholarships";
   console.log(parameter);
   var arr;
-  ig.scrapeTagPage(`${parameter}`).then((result) => {
-    // console.log(result.media);
-    total = result.total;
-    media = result.media;
-    arr = media.map(myFunct);
-    function myFunct(value) {
-      // console.log(value.caption, value.code);
-      return {
-        length: length,
-        caption: value.caption,
-        link: `https://www.instagram.com/p/${value.code}`,
-      };
-    }
-    res.json({
-      data: arr,
+  ig.scrapeTagPage(`${parameter}`)
+    .then((result) => {
+      // console.log(result.media);
+      total = result.total;
+      media = result.media;
+      arr = media.map(myFunct);
+      function myFunct(value) {
+        // console.log(value.caption, value.code);
+        return {
+          length: length,
+          caption: value.caption,
+          link: `https://www.instagram.com/p/${value.code}`,
+        };
+      }
+      res.json({
+        data: arr,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        message: "Unable to scrape at this time",
+      });
     });
-  });
 });
 
 app.post("/customSearch", async (req, res) => {
