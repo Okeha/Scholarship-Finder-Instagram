@@ -36,7 +36,7 @@ const keys = require("./config/keys");
 const con = mysql.createPool(connect);
 
 var scrapeScholarship = async (parameter) => {};
-app.get("/get", async (req, res) => {
+app.post("/get", async (req, res) => {
   var parameter = "mastersscholarships";
   console.log(parameter);
   var arr;
