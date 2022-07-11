@@ -9,7 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
-    "node":"14.17.1"
+    "node": "14.17.1",
+    "npm":"6.14.13"
   },
   "keywords": [
     "Instagram",
