@@ -10,7 +10,7 @@ const validateLoginInput = require("./validation/login"); // Load User model
 const connect = require("./config/conn");
 const nodeMailer = require("nodemailer");
 const validateSendMailInput = require("./validation/sendMail");
-const scraper = require("instagram-scraping");
+const scraper = require("./instagram-scraping copy");
 var cors = require("cors");
 
 var app = express();
