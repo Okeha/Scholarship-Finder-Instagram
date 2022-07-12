@@ -186,13 +186,7 @@ html, body {
     letter-spacing: -0.015em;
     outline: none;
   }
-  #search::-webkit-input-placeholder {color: #FFFFFF;}
-  #search::-moz-placeholder {color: #FFFFFF;}
-  #search:-ms-input-placeholder {color: #FFFFFF;}
-  #search:-moz-placeholder {color: #FFFFFF;}
-  #search::-moz-selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
-  #search::selection {color: #FFFFFF; background: rgba(0,0,0,0.25);}
-
+ 
 button:hover{
  font-size: larger ;
  font-size: large ;
