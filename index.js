@@ -31,10 +31,91 @@ var ig = new Instagram({
     tmpDir: null,
   },
 });
+
+const axios = require("axios");
+
 const keys = require("./config/keys");
 
 const con = mysql.createPool(connect);
 
+// app.get("/getScholarship", async (req, res) => {
+//   const options = {
+//     method: "GET",
+//     url: "https://twitter135.p.rapidapi.com/Search/",
+//     params: { q: "internationalscholarships", count: "20" },
+//     headers: {
+//       "X-RapidAPI-Key": "6969c4e11emshfc28cc66a2370aep1d08ffjsna9873f04f367",
+//       "X-RapidAPI-Host": "twitter135.p.rapidapi.com",
+//     },
+//   };
+
+//   axios
+//     .request(options)
+//     .then(function (response) {
+//       console.log(response.data);
+//       var tweets = response.data.globalObjects.tweets;
+//       var length = tweets.length;
+//       console.log(tweets.length);
+//       var data;
+//       for (const tweet in tweets) {
+//         data = {
+//           caption: tweet.full_text,
+//           link: `https://twitter.com/${tweet.id_str}/status/${tweet.id_str}`,
+//         };
+//       }
+//       res.json({
+//         success: true,
+//         media: {
+//           length: length,
+//           data: data,
+//         },
+//       });
+//     })
+//     .catch(function (error) {
+//       console.error(error);
+//     });
+// });
+
+// app.post("/getByTag", async (req, res) => {
+//   var parameter = req.body.parameter;
+//   const options = {
+//     method: "GET",
+//     url: "https://twitter135.p.rapidapi.com/Search/",
+//     params: { q: `${parameter}`, count: "20" },
+//     headers: {
+//       "X-RapidAPI-Key": "6969c4e11emshfc28cc66a2370aep1d08ffjsna9873f04f367",
+//       "X-RapidAPI-Host": "twitter135.p.rapidapi.com",
+//     },
+//   };
+//   var tweets, length, data;
+//   axios
+//     .request(options)
+//     .then(function (response) {
+//       var data1 = response.data;
+//       tweets = data1.globalObjects.tweets;
+
+//       for (const tweet in tweets) {
+//         data = {
+//           caption: tweet.full_text,
+//           link: `https://twitter.com/${tweet.id_str}/status/${tweet.id_str}`,
+//         };
+//       }
+//       res.json({
+//         success: true,
+//         media: {
+//           length: length,
+//           data: data,
+//         },
+//       });
+//     })
+//     .catch(function (error) {
+//       res.json({
+//         message:
+//           "You have reached the maximum allowed number of requests, Try again next month",
+//       });
+//       console.error(error);
+//     });
+// });
 app.post("/register", async (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body); // Check validation
   if (!isValid) {
@@ -182,68 +263,7 @@ async function sendMail(email, data1) {
   });
   // return data1;
 }
-app.get("/", (req, res) => {
-  for (i = 0; i < searchParams.length; i++) {
-    var parameters = searchParams[i];
-  }
-  var tag = parameters;
-  scraper
-    .scrapeTag(tag)
-    .then((value) => {
-      console.log(value.total);
-      var length = value.total;
-      // console.log(value[0]);
-      var media = value.medias;
 
-      // console.log(media[0]);
-      const data = media.map(myFunction);
-      function myFunction(value, index, array) {
-        return {
-          length: length,
-          caption: value.node.edge_media_to_caption.edges[0].node.text,
-          link: `https://www.instagram.com/p/${value.node.shortcode}`,
-        };
-      }
-      res.json({
-        success: true,
-        media: {
-          data: data,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.post("/getByTag", (req, res) => {
-  var tag = req.body.parameter;
-  scraper
-    .scrapeTag(tag)
-    .then((value) => {
-      console.log(value.total);
-      var length = value.total;
-      var media = value.medias;
-      // console.log(media[0]);
-      const data = media.map(myFunction);
-      function myFunction(value, index, array) {
-        return {
-          length: length,
-          caption: value.node.edge_media_to_caption.edges[0].node.text,
-          link: `https://www.instagram.com/p/${value.node.shortcode}`,
-        };
-      }
-      res.json({
-        success: true,
-        media: {
-          data: data,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
 app.post("/sendmail", (req, res) => {
   const { errors, isValid } = validateSendMailInput(req.body); // Check validation
   if (!isValid) {
