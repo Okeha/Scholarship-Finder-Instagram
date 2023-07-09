@@ -35,42 +35,53 @@ var ig = new Instagram({
     tmpDir: null,
   },
 });
+
+const axios = require("axios");
+
 const keys = require("./config/keys");
 
 const con = mysql.createPool(connect);
 
-var scrapeScholarship = async (parameter) => {};
-
-app.use(cors());
 app.use("/api/v1/auth", authRouter);
-app.post("/get", async (req, res) => {
-  var parameter = "mastersscholarships";
-  console.log(parameter);
-  var arr;
-  ig.scrapeTagPage(`${parameter}`)
-    .then((result) => {
-      // console.log(result.media);
-      total = result.total;
-      media = result.media;
-      arr = media.map(myFunct);
-      function myFunct(value) {
-        // console.log(value.caption, value.code);
-        return {
-          length: length,
-          caption: value.caption,
-          link: `https://www.instagram.com/p/${value.code}`,
-        };
-      }
-      res.json({
-        data: arr,
-      });
-    })
-    .catch((err) => {
-      res.json({
-        message: "Unable to scrape at this time",
-      });
-    });
-});
+// app.post("/register", async (req, res) => {
+//   const { errors, isValid } = validateRegisterInput(req.body); // Check validation
+//   if (!isValid) {
+//     return res.status(400).json(errors);
+//   }
+//   const first_name = req.body.first_name;
+//   const last_name = req.body.last_name;
+//   const email = req.body.email;
+//   const password = await bcrypt.hash(req.body.password, 10);
+//   con.getConnection(async (err, con) => {
+//     const sqlSearch = "SELECT * FROM users WHERE email =?;";
+//     const search_query = mysql.format(sqlSearch, [email]);
+//     const sqlInsert = "INSERT INTO users VALUES(?, ?, ?, ?);";
+//     const insert_query = mysql.format(sqlInsert, [
+//       first_name,
+//       last_name,
+//       email,
+//       password,
+//     ]);
+//     con.query(search_query, async (err, result) => {
+//       // con.release();
+//       if (err) throw err;
+//       if (result.length != 0) {
+//         return res.status(400).json({ email: "User already exists" });
+//       } else {
+//         con.query(insert_query, (err, result) => {
+//           // con.release();
+//           if (err) throw err;
+//           console.log("User Created");
+//           res.json({
+//             first_name: req.body.first_name,
+//             last_name: req.body.last_name,
+//             email: req.body.email,
+//             password: req.body.password,
+//           });
+//         });
+//       }
+//     });
+// });
 
 app.post("/customSearch", async (req, res) => {
   var parameter = req.body.parameter;
@@ -254,9 +265,8 @@ app.get("/", (req, res) => {
     var parameters = searchParams[i];
   }
   var tag = parameters;
-  console.log(tag);
   scraper
-    .scrapeTag("music")
+    .scrapeTag(tag)
     .then((value) => {
       console.log(value.total);
       var length = value.total;
@@ -283,11 +293,7 @@ app.get("/", (req, res) => {
       console.log(err);
     });
 });
-app.get("/test", protected, (req, res) => {
-  res.json({
-    message: "SUIIII",
-  });
-});
+
 app.post("/getByTag", (req, res) => {
   var tag = req.body.parameter;
   scraper
@@ -297,30 +303,20 @@ app.post("/getByTag", (req, res) => {
       var length = value.total;
       var media = value.medias;
       // console.log(media[0]);
-      if (value === undefined) {
-        res.json({
-          media: {
-            data: {
-              caption: "nothing found",
-            },
-          },
-        });
-      } else {
-        const data = media.map(myFunction);
-        function myFunction(value, index, array) {
-          return {
-            length: length,
-            caption: value.node.edge_media_to_caption.edges[0].node.text,
-            link: `https://www.instagram.com/p/${value.node.shortcode}`,
-          };
-        }
-        res.json({
-          success: true,
-          media: {
-            data: data,
-          },
-        });
+      const data = media.map(myFunction);
+      function myFunction(value, index, array) {
+        return {
+          length: length,
+          caption: value.node.edge_media_to_caption.edges[0].node.text,
+          link: `https://www.instagram.com/p/${value.node.shortcode}`,
+        };
       }
+      res.json({
+        success: true,
+        media: {
+          data: data,
+        },
+      });
     })
     .catch((err) => {
       console.log(err);

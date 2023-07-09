@@ -190,17 +190,27 @@
         <div class="container" style="color:white;">
             <h1>What are you looking for?</h1>
             <h2 style="margin-bottom: 30px;">Search Below</h2>
+
+
             <div class="search-box">
-                <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
+              
+              <form action=""  class="search-form" id="search_form">
+                <input type="text" id="search" placeholder="Search Here">
+            </div>
+            <div style=" margin-top: 20px;display:flex;justify-content: center;">
+            <button id="go" style="height: 50px;width: 50px; border: 3px solid white; background-color: transparent; color:white;border-radius: 10px; font-weight: 700; " type="submit">Go</button>
+            </div>
+          </div>
+            <!-- <div class="search-box">
+                <i class="fa fa-search search-icon"style="width:-20px;"></i>
                 <form action=""  class="search-form" id="search_form">
-                    <input type="text" placeholder="Search" id="search" autocomplete="off" required pattern="^[A-Za-z][A-Za-z0-9]*$" oninvalid="this.setCustomValidity('Do not leave Space between words')"
-                    oninput="this.setCustomValidity('')">
-                    <div style="display:flex; justify-content: center; align-items: center; margin-top: 60px">
+                    <input type="text" id="search" placeholder="search">
+                     <div style="display:flex; justify-content: center; align-items: center; margin-top: 60px">
                         <button id="go" style="height: 50px;width: 50px; border: 3px solid white; background-color: transparent; color:white;border-radius: 10px; font-weight: 700;" type="submit">Go</button>
                     </div>
-                </form>
-                <div class="go-icon">
-                    <i class="fa fa-arrow-right"></i>Go</div>        
+                </form> -->
+                <!-- <div class="go-icon">
+                    <i class="fa fa-arrow-right"></i>Go</div>         -->
             </div>
                         
         </div>

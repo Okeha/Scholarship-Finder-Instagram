@@ -4,8 +4,8 @@ var searchResults = JSON.parse(results);
 
 // console.log(searchResults);
 
-var data = searchResults.media.data;
-console.log(data);
+var data = searchResults;
+console.log(searchResults);
 var output = ``;
 //   var arr = data.map(myFunction);
 //   function myFunction() {}
