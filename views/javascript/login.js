@@ -6,7 +6,7 @@ loginButton.addEventListener("click", (e) => {
 
   var email = login.email.value;
   var password = login.password.value;
-  fetch("https://scholarshipfinderapi.herokuapp.com/login", {
+  fetch("http://localhost:3200/api/v1/auth/login", {
     method: "POST",
     body: JSON.stringify({
       email: `${email}`,
@@ -17,25 +17,21 @@ loginButton.addEventListener("click", (e) => {
     },
   })
     .then((res) => {
-      console.log(res);
-      if (res.status === 400 && res.statusText === "Bad Request") {
+      if (res.status === 422) {
         return "Invalid Details";
-      } else if (res.status === 400 && res.statusText === "Not Found") {
-        return "Email Not Found";
       } else {
         return res.json();
       }
     })
     .then((data) => {
+      // console.log(data);
       if (data === "Invalid Details") {
-        alert(
-          "Oops Invalid Login Details. Please enter valid Email and Password!"
-        );
+        alert("Fill in all sections");
+      } else if (!data.successful) {
+        alert(`${data.body.message}`);
       } else {
-        console.log(data);
-        localStorage.setItem("first_name", `${data.first_name}`);
-        localStorage.setItem("last_name", `${data.last_name}`);
-        localStorage.setItem("email", `${data.email}`);
+        var token = data.body.token;
+        localStorage.setItem("token", token);
         location.href = "../template/index.html";
       }
     });

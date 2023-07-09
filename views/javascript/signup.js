@@ -9,34 +9,36 @@ signup.addEventListener("submit", (e) => {
   var password = signup.password.value;
   var confirm_password = signup.confirm_password.value;
 
-  fetch("https://scholarshipfinderapi.herokuapp.com/register", {
+  fetch("http://localhost:3200/api/v1/auth/signup", {
     method: "POST",
     body: JSON.stringify({
-      first_name: `${first_name}`,
-      last_name: `${last_name}`,
+      firstname: `${first_name}`,
+      lastname: `${last_name}`,
       email: `${email}`,
       password: `${password}`,
-      password2: `${confirm_password}`,
+      confirm_password: `${confirm_password}`,
     }),
     headers: {
       "Content-Type": "application/json; charset = UTF-8",
     },
   })
     .then((res) => {
-      console.log(res);
-      if (res.status === 400) {
+      if (res.status === 422) {
         return "Invalid Details";
       } else {
         return res.json();
       }
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       if (data === "Invalid Details") {
-        alert("Oops Invalid Details. Please enter valid details!");
+        alert("Fill in all sections");
+      } else if (!data.successful) {
+        alert(`${data.body.message}`);
       } else {
-        console.log(data);
-        location.href = "./login.html";
+        var token = data.body.token;
+        localStorage.setItem("token", token);
+        location.href = "../template/index.html";
       }
     });
 });
