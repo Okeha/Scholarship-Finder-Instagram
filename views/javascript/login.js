@@ -6,7 +6,7 @@ loginButton.addEventListener("click", (e) => {
 
   var email = login.email.value;
   var password = login.password.value;
-  fetch("http://localhost:3200/api/v1/auth/login", {
+  fetch("https://scholarship-finder-9po5.onrender.com/api/v1/auth/login", {
     method: "POST",
     body: JSON.stringify({
       email: `${email}`,

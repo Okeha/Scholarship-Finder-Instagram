@@ -9,7 +9,7 @@ signup.addEventListener("submit", (e) => {
   var password = signup.password.value;
   var confirm_password = signup.confirm_password.value;
 
-  fetch("http://localhost:3200/api/v1/auth/signup", {
+  fetch("https://scholarship-finder-9po5.onrender.com/api/v1/auth/signup", {
     method: "POST",
     body: JSON.stringify({
       firstname: `${first_name}`,
